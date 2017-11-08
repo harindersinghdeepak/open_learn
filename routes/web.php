@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// INDEX CONTROLLER
+Route::get('/', 'IndexController@index');
+Route::get('error', 'IndexController@handle_err')->name('error');
+
