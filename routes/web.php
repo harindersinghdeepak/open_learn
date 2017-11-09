@@ -15,3 +15,13 @@
 Route::get('/', 'IndexController@index');
 Route::get('error', 'IndexController@handle_err')->name('error');
 
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::get('admin/courses', 'Admin\CoursesController@index');
+Route::get('admin/course/add', 'Admin\CoursesController@course_add');
+Route::post('admin/course/save', 'Admin\CoursesController@course_save');
