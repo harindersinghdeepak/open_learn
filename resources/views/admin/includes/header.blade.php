@@ -43,6 +43,9 @@
 <link href="{{url('/assets/css/custom-icon-set.css')}}" rel="stylesheet" type="text/css"/>
 <!-- END CSS TEMPLATE -->
 <link href="{{url('/assets/plugins/boostrap-slider/css/slider.css')}}" rel="stylesheet" type="text/css"/>
+
+<script src="{{url('/assets/plugins/jquery-1.8.3.min.js')}}" type="text/javascript"></script>
+
 </head>
 <!-- END HEAD -->
 
