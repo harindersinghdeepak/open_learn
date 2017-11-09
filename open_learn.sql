@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2017 at 08:17 PM
+-- Generation Time: Nov 09, 2017 at 09:23 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -46,6 +46,14 @@ CREATE TABLE `courses` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `courses`
+--
+
+INSERT INTO `courses` (`id`, `course_name`, `price`, `short_description`, `description`, `requirements`, `expiry_date`, `is_certification`, `is_full_access`, `what_will_learn`, `category_id`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 'Course One', 11.00, 'This is short description', 'This is description', 'This is requirements', '2017-11-30 03:07:10', 1, 1, 'This is what will learn', 1, 1, 0, '2017-11-09 00:00:00', '2017-11-09 00:00:00'),
+(2, 'Course Two', 31.00, 'This is short description', 'This is description', 'This is requirements', '2017-11-30 03:07:10', 1, 1, 'This is what will learn', 1, 1, 0, '2017-11-09 00:00:00', '2017-11-09 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -63,6 +71,30 @@ CREATE TABLE `course_attachments` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course_categories`
+--
+
+CREATE TABLE `course_categories` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `course_category_name` varchar(512) NOT NULL,
+  `course_category_slug` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '1',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `course_categories`
+--
+
+INSERT INTO `course_categories` (`id`, `course_category_name`, `course_category_slug`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 'Course Cat One', 'cc1', 1, 0, '2017-11-09 00:00:00', '2017-11-09 00:00:00'),
+(2, 'Course Cat 2', 'cc2', 1, 0, '2017-11-08 00:00:00', '2017-11-08 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -116,6 +148,12 @@ ALTER TABLE `course_attachments`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `course_categories`
+--
+ALTER TABLE `course_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `course_modules`
 --
 ALTER TABLE `course_modules`
@@ -135,12 +173,17 @@ ALTER TABLE `model_attachments`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `course_attachments`
 --
 ALTER TABLE `course_attachments`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `course_categories`
+--
+ALTER TABLE `course_categories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `course_modules`
 --

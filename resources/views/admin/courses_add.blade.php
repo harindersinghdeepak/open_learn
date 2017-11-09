@@ -339,62 +339,64 @@
                             <li data-step="3">Create Course Modules</li>
                         </ul>
                         <div class="steps-content">
-                            <form method="{{url('admin/course/save')}}" method="POST">
+                            <form action="{{url('admin/course/save')}}" method="POST">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="cid" value="<?php echo isset($data['course_details']) ? base64_encode($data['course_details']['id']) : ''; ?>">
                                 <div data-step="1">
                                     <div class="row">
                                         <div class="col-md-8 col-sm-8 col-xs-8">
                                             <div class="form-group">
                                                 <label class="form-label">Course Name</label>
                                                 <div class="controls">
-                                                    <input type="text" class="form-control" name="course_name">
+                                                    <input type="text" class="form-control" name="course_name" value="<?php echo isset($data['course_details']) ? $data['course_details']['course_name'] : ''; ?>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="form-label">Course Price</label>
                                                 <div class="controls">
-                                                    <input type="text" class="form-control" name="course_price">
+                                                    <input type="text" class="form-control" name="course_price" value="<?php echo isset($data['course_details']) ? $data['course_details']['price'] : ''; ?>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="form-label">Course Short Description</label>
                                                 <div class="controls">
-                                                    <textarea id="course_short_description" placeholder="Enter Short Description" name="course_short_description" class="form-control" rows="10"></textarea>
+                                                    <textarea id="course_short_description" placeholder="Enter Short Description" name="course_short_description" class="form-control" rows="10"><?php echo isset($data['course_details']) ? $data['course_details']['short_description'] : ''; ?></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="form-label">Course Description</label>
                                                 <div class="controls">
-                                                    <textarea id="course_description" placeholder="Enter Description" name="course_description" class="form-control" rows="10"></textarea>
+                                                    <textarea id="course_description" placeholder="Enter Description" name="course_description" class="form-control" rows="10"><?php echo isset($data['course_details']) ? $data['course_details']['description'] : ''; ?></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="form-label">Course Requirements</label>
                                                 <div class="controls">
-                                                    <textarea id="course_requirements" placeholder="Enter Course Requirements" name="course_requirements" class="form-control" rows="10"></textarea>
+                                                    <textarea id="course_requirements" placeholder="Enter Course Requirements" name="course_requirements" class="form-control" rows="10"><?php echo isset($data['course_details']) ? $data['course_details']['requirements'] : ''; ?></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="form-label">What Will Learn</label>
                                                 <div class="controls">
-                                                    <textarea id="what_will_learn" placeholder="Enter What Will Learn" name="what_will_learn" class="form-control" rows="10"></textarea>
+                                                    <textarea id="what_will_learn" placeholder="Enter What Will Learn" name="what_will_learn" class="form-control" rows="10"><?php echo isset($data['course_details']) ? $data['course_details']['what_will_learn'] : ''; ?></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="form-label">Course Category</label>
                                                 <div class="controls">
-                                                    <select id="source" style="width:100%">
-                                                        <option>-- Select Course Category --</option>
+                                                    <select id="source" style="width:100%" name="category_id">
+                                                        <option value="">-- Select Course Category --</option>
                                                         <?php
                                                         foreach ($data['all_course_categories'] as $keyCC => $valueCC)
                                                         {
                                                         ?>
-                                                            <option value="<?php echo $valueCC['course_category_slug'];?>"><?php echo $valueCC['course_category_name'];?></option>
+                                                            <option <?php echo isset($data['course_details']) && $data['course_details']['category_id'] == $valueCC['id'] ? "selected" : ''; ?> value="<?php echo $valueCC['id'];?>"><?php echo $valueCC['course_category_name'];?></option>
                                                         <?php
                                                         }
                                                         ?>
@@ -406,7 +408,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Expiry Date</label>
                                                     <div class="controls">
-                                                        <input name="expiry_date" type="text" class="form-control" id="sandbox-advance">
+                                                        <input name="expiry_date" type="text" class="form-control" id="sandbox-advance" value="<?php echo isset($data['course_details']) ? $data['course_details']['expiry_date'] : ''; ?>">
                                                         <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
                                                     </div>
                                                 </div>
@@ -415,14 +417,14 @@
                                             <div class="form-group">
                                                 <label class="form-label">Is Certification?</label>
                                                 <div class="controls">
-                                                    <input name="is_certification" type="checkbox" class="form-control">
+                                                    <input name="is_certification" type="checkbox" class="form-control" <?php echo isset($data['course_details']) && $data['course_details']['is_certification'] ? "checked" : ''; ?>>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="form-label">Is Full Access?</label>
                                                 <div class="controls">
-                                                    <input name="is_full_access" type="checkbox" class="form-control">
+                                                    <input name="is_full_access" type="checkbox" class="form-control" <?php echo isset($data['course_details']) && $data['course_details']['is_full_access'] ? "checked" : ''; ?>>
                                                 </div>
                                             </div>
 
@@ -430,8 +432,8 @@
                                                 <label class="form-label">Status</label>
                                                 <div class="controls">
                                                     <select name="course_status">
-                                                        <option value="1">Active</option>
-                                                        <option value="0">Inactive</option>
+                                                        <option <?php echo isset($data['course_details']) && $data['course_details']['status'] == 1 ? "selected" : ''; ?> value="1">Active</option>
+                                                        <option <?php echo isset($data['course_details']) && $data['course_details']['status'] == 0 ? "selected" : ''; ?> value="0">Inactive</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -635,6 +637,7 @@
                                             </div>
                                         </div>
                                     </div> -->
+                                    <button class="btn btn-next final-step btn-success" name="submit">Complete</button>
                                 </div>
                             </form>
                         </div>
@@ -644,7 +647,5 @@
         </div>
     </div>
 </div>
-  </div>
-
-
+</div>
 @stop
