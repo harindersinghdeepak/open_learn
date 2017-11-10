@@ -68,7 +68,7 @@ class CoursesController extends Controller
     	if (array_key_exists('id', $params))
     	{
     		\App\Courses::delete_course($params['id']);
-	    	// return redirect()->route('index');
+	    	return redirect()->route('delete_course');
     	}
 	}
 }
