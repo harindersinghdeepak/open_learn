@@ -61,4 +61,14 @@ class CoursesController extends Controller
     	$insert_id = \App\Courses::save_course($insert_data);
     	return redirect()->route('edit_course', array('id' => $insert_id));
 	}
+
+	function course_delete()
+	{
+		$params = Route::current()->parameters();
+    	if (array_key_exists('id', $params))
+    	{
+    		\App\Courses::delete_course($params['id']);
+	    	// return redirect()->route('index');
+    	}
+	}
 }

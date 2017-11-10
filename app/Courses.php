@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Courses extends Model
 {
@@ -45,5 +46,12 @@ class Courses extends Model
 		$course->save();
 
 		return $course->id;
+	}
+
+	public static function delete_course($id)
+	{
+		DB::table('courses')
+            ->where('id', $id)
+            ->update(['is_deleted' => 1]);
 	}
 }
