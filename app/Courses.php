@@ -75,12 +75,10 @@ class Courses extends Model
 						{
 							if (!$valueM['module_video']['error'])
 							{
-								$file_name = time() . "_" . $valueM['module_video']['name'];
-
 								$module_attachment = new Module_Attachments();
 								$module_attachment->module_id = $course_module->id;
-								$module_attachment->attachment_name = $file_name;
-								$module_attachment->attachment_path = 'assets/uploads/course_modules/videos/' . $file_name;
+								$module_attachment->attachment_name = $valueM['module_video']['name'];
+								$module_attachment->attachment_path = $valueM['module_video']['path'];
 								$module_attachment->attachment_type = 2;
 								$module_attachment->created_at = date("Y-m-d H:i:s");
 								$module_attachment->updated_at = date("Y-m-d H:i:s");

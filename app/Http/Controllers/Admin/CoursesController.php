@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Route;
+use Session;
+use Config;
 
 class CoursesController extends Controller
 {
@@ -74,10 +76,10 @@ class CoursesController extends Controller
 			$insert_data['modules'][$keyM]['module_video'] = null;
 			if (isset($_FILES['module_video_' . $keyM]) && $_FILES['module_video_' . $keyM]['error'] == 0)
 			{
-				$insert_data['modules'][$keyM]['module_video'] = $_FILES['module_video_' . $keyM];
+				$insert_data['modules'][$keyM]['module_video'] = $this->uploadFiles($_FILES['module_video_' . $keyM], Config::get('constants.uploadFilesFolder.module'));
 			}
 		}
-
+		
     	$insert_id = \App\Courses::save_course($insert_data);
     	return redirect()->route('edit_course', array('id' => $insert_id));
 	}
@@ -87,8 +89,36 @@ class CoursesController extends Controller
 		$params = Route::current()->parameters();
     	if (array_key_exists('id', $params))
     	{
-    		\App\Courses::delete_course($params['id']);
-	    	return redirect()->route('delete_course');
+    		try {
+	    		\App\Courses::delete_course($params['id']);
+	    		Session::flash('success', 'Course deleted successful!');
+    		} catch (Exception $e) {
+	    		Session::flash('error', 'Error while deleting Course!');
+    		}
+	    	return redirect()->back();
     	}
+	}
+
+	function uploadFiles($file, $folderName)
+	{
+		define('DS', '/');
+		$rp = realpath(getcwd());
+       	$originalName = $file["name"];
+        
+        $fileName = time() . "_" .str_replace(array(" ", "(", ")"), "_", $file["name"]);
+        
+        if (! is_dir($rp . DS . "uploadedFiles" .DS. $folderName)) 
+        {
+            mkdir($rp . DS. "uploadedFiles" . DS . $folderName, 0777, true);
+        }
+             	 
+        $dest = DS . "uploadedFiles" . DS . $folderName . DS . $fileName;     
+       	$cp = $rp . $dest;
+
+        if(move_uploaded_file($file["tmp_name"], $cp))
+        {
+        	return array('name' => $fileName, 'error' => $file["error"], 'path' => $dest);
+        }
+        return array();
 	}
 }
