@@ -6,6 +6,13 @@ jQuery(document).ready(function(){
 	    CKEDITOR.replace('course_description');
 	    CKEDITOR.replace('course_requirements');
 	    CKEDITOR.replace('what_will_learn');
+
+	    CKEDITOR.replace('module[0][module_description]');
+	}
+
+	if($('table').length)
+	{
+		$('table').DataTable();
 	}
 
 	$(document).on('click', '.remove_module', function(){
@@ -37,10 +44,16 @@ jQuery(document).ready(function(){
 			            '</div>'+
 			        '</div>';
 		$('div#module_container').prepend(str);
+		CKEDITOR.replace('module['+ sizeModule +'][module_description]');
 	});
 });
 
-function addModuleStr()
+function deleteRecord(e)
 {
-
+    if(window.confirm('Do you want to delete?'))
+    {
+        $(e).attr('href', '/admin/course/delete/'+$(e).attr('rel'));
+        $(e).attr('onclick', '');
+        $(e).click();
+    }
 }
