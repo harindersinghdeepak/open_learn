@@ -19,7 +19,14 @@ class CoursesController extends Controller
     	$params = Route::current()->parameters();
     	if (array_key_exists('id', $params))
     	{
+    		// EDIT
     		$data['course_details'] = \App\Courses::get_course_details($params['id']);
+    		if (empty($data['course_details']))
+    		{
+    			return view('admin/errors/404');
+    		}
+    		
+    		$data['course_modules'] = \App\Course_Modules::get_course_modules($params['id']);
     		$data['all_course_categories'] = \App\Course_Categories::get_all_course_categories();
     		return view('admin/courses_add')->with('data', $data);
     	}
@@ -56,6 +63,19 @@ class CoursesController extends Controller
 		if (isset($post_data['is_full_access']))
 		{
 			$insert_data['course']['is_full_access'] = 1;
+		}
+
+		// Course Modules
+		$post_data['module'] = array_values($post_data['module']);
+		foreach ($post_data['module'] as $keyM => $valueM)
+		{
+			$insert_data['modules'][$keyM]['module_name'] = $valueM['module_name'];
+			$insert_data['modules'][$keyM]['module_description'] = $valueM['module_description'];
+			$insert_data['modules'][$keyM]['module_video'] = null;
+			if (isset($_FILES['module_video_' . $keyM]) && $_FILES['module_video_' . $keyM]['error'] == 0)
+			{
+				$insert_data['modules'][$keyM]['module_video'] = $_FILES['module_video_' . $keyM];
+			}
 		}
 
     	$insert_id = \App\Courses::save_course($insert_data);

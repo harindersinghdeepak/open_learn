@@ -8,7 +8,7 @@ class IndexController extends Controller
 {
     public function index()
     {
-    	return view('landing_page');
+    	return view('errors.404');
     }
 
     public function handle_err()

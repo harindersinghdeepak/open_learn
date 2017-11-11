@@ -22,7 +22,7 @@ Route::get('error', 'IndexController@handle_err')->name('error');
 |
 */
 
-Route::get('admin/courses', 'Admin\CoursesController@index');
+Route::get('admin/courses', 'Admin\CoursesController@index')->name('list_course');
 Route::get('admin/course/add', 'Admin\CoursesController@course_add');
 Route::get('admin/course/edit/{id}', 'Admin\CoursesController@course_add')->name('edit_course');
 Route::post('admin/course/save', 'Admin\CoursesController@course_save');
