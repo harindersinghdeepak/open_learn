@@ -67,6 +67,10 @@ class CoursesController extends Controller
 			$insert_data['course']['is_full_access'] = 1;
 		}
 
+		// Course Attachments
+		$insert_data['course']['course_image'] = $_FILES['course_image'];
+		$insert_data['course']['course_video'] = $_FILES['course_video'];
+
 		// Course Modules
 		$post_data['module'] = array_values($post_data['module']);
 		foreach ($post_data['module'] as $keyM => $valueM)
@@ -74,12 +78,12 @@ class CoursesController extends Controller
 			$insert_data['modules'][$keyM]['module_name'] = $valueM['module_name'];
 			$insert_data['modules'][$keyM]['module_description'] = $valueM['module_description'];
 			$insert_data['modules'][$keyM]['module_video'] = null;
-			if (isset($_FILES['module_video_' . $keyM]) && $_FILES['module_video_' . $keyM]['error'] == 0)
+			if (isset($_FILES['module_video_' . $keyM]))
 			{
-				$insert_data['modules'][$keyM]['module_video'] = $this->uploadFiles($_FILES['module_video_' . $keyM], Config::get('constants.uploadFilesFolder.module'));
+				$insert_data['modules'][$keyM]['module_video'] = $_FILES['module_video_' . $keyM];
 			}
 		}
-		
+
     	$insert_id = \App\Courses::save_course($insert_data);
     	return redirect()->route('edit_course', array('id' => $insert_id));
 	}
@@ -89,36 +93,17 @@ class CoursesController extends Controller
 		$params = Route::current()->parameters();
     	if (array_key_exists('id', $params))
     	{
-    		try {
+    		try
+    		{
 	    		\App\Courses::delete_course($params['id']);
 	    		Session::flash('success', 'Course deleted successful!');
-    		} catch (Exception $e) {
+    		}
+    		catch (Exception $e)
+    		{
 	    		Session::flash('error', 'Error while deleting Course!');
     		}
+
 	    	return redirect()->back();
     	}
-	}
-
-	function uploadFiles($file, $folderName)
-	{
-		define('DS', '/');
-		$rp = realpath(getcwd());
-       	$originalName = $file["name"];
-        
-        $fileName = time() . "_" .str_replace(array(" ", "(", ")"), "_", $file["name"]);
-        
-        if (! is_dir($rp . DS . "uploadedFiles" .DS. $folderName)) 
-        {
-            mkdir($rp . DS. "uploadedFiles" . DS . $folderName, 0777, true);
-        }
-             	 
-        $dest = DS . "uploadedFiles" . DS . $folderName . DS . $fileName;     
-       	$cp = $rp . $dest;
-
-        if(move_uploaded_file($file["tmp_name"], $cp))
-        {
-        	return array('name' => $fileName, 'error' => $file["error"], 'path' => $dest);
-        }
-        return array();
 	}
 }

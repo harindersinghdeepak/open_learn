@@ -1,6 +1,8 @@
 <?php
 return [
     'uploadFilesFolder' => [
-        'module' => 'module_files'
+        'course_images' => 'course_images',
+        'course_videos' => 'course_videos',
+        'module_videos' => 'module_videos'
     ],
 ];
