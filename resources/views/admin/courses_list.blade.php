@@ -1,5 +1,6 @@
 @extends('admin.layouts.layout')
 @section('content')
+<link href="{{url('/assets/plugins/data-tables/DT_bootstrap.min.css')}}" rel="stylesheet" type="text/css" media="screen"/>
 <!-- BEGIN PAGE CONTAINER-->
 <div class="page-content">
     <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
@@ -27,6 +28,12 @@
             <div class="col-md-12">
                 <div class="grid simple">
                     <div class="grid-body no-border form_wrap_col">
+                        @if(Session::has('success'))
+                        <p class="alert alert-success">{{ Session::get('success') }}</p>
+                        @endif
+                        @if(Session::has('error'))
+                        <p class="alert alert-danger">{{ Session::get('error') }}</p>
+                        @endif
                         <table class="table">
                             <thead>
                                 <tr>
@@ -52,10 +59,10 @@
                                         <td><?= date('Y-m-d', strtotime($value['expiry_date']))?></td>
                                         <td><?= $value['is_certification'] == 1 ? 'Yes' : 'No' ?></td>
                                         <td><?= $value['is_full_access'] == 1 ? 'Yes' : 'No'?></td>
-                                        <td><?= $value['status'] == 1 ? 'Active' : 'Disabled' ?></td>
+                                        <td><?= $value['status'] == 1 ? 'Active' : 'Inactive' ?></td>
                                         <td>
-                                            <a href="{{url('admin/course/edit')}}/<?= $value['id'] ?>" class="btn"><i class="fa fa-edit"></i></a>
-                                            <a href="{{url('admin/course/delete')}}/<?= $value['id'] ?>" class="btn"><i class="fa fa-trash"></i></a>
+                                            <a href="{{url('admin/course/edit')}}/<?= $value['id'] ?>" class="btn btn-small btn-primary"><i class="fa fa-edit"></i></a>
+                                            <a href="javascript:void(0)" onclick="deleteRecord(this)" rel="<?= $value['id'] ?>" class="btn btn-small btn-danger"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     <?php
