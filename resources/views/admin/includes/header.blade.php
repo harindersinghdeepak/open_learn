@@ -62,7 +62,7 @@
           </a> </li>
       </ul>
       <!-- BEGIN LOGO -->
-      <a href="index.html"><img src="assets/img/white_logo.png" class="logo" alt=""  data-src="assets/img/white_logo.png" data-src-retina="assets/img/white_logo.png" width="200"/></a>
+      <a href="index.html"><img src="{{url('assets/img/white_logo.png')}}" class="logo" alt=""  data-src="{{url('assets/img/white_logo.png')}}" data-src-retina="{{url('assets/img/white_logo.png')}}" width="200"/></a>
       <!-- END LOGO -->
 
     </div>
@@ -106,7 +106,7 @@
                     <div style="width:300px">
                           <div class="notification-messages info">
                                     <div class="user-profile">
-                                        <img src="assets/img/profiles/d.jpg"  alt="" data-src="assets/img/profiles/d.jpg" data-src-retina="assets/img/profiles/d2x.jpg" width="35" height="35">
+                                        <img src="{{url('assets/img/profiles/d.jpg')}}"  alt="" data-src="{{url('assets/img/profiles/d.jpg')}}" data-src-retina="{{url('assets/img/profiles/d2x.jpg')}}" width="35" height="35">
                                     </div>
                                     <div class="message-wrapper">
                                         <div class="heading">
@@ -140,7 +140,7 @@
                             </div>
                             <div class="notification-messages success">
                                 <div class="user-profile">
-                                    <img src="assets/img/profiles/h.jpg"  alt="" data-src="assets/img/profiles/h.jpg" data-src-retina="assets/img/profiles/h2x.jpg" width="35" height="35">
+                                    <img src="{{url('assets/img/profiles/h.jpg')}}"  alt="" data-src="{{url('assets/img/profiles/h.jpg')}}" data-src-retina="{{url('assets/img/profiles/h2x.jpg')}}" width="35" height="35">
                                 </div>
                                 <div class="message-wrapper">
                                     <div class="heading">
@@ -158,7 +158,7 @@
                         </div>
                 </div>
                 <div class="profile-pic">
-                    <img src="assets/img/profiles/avatar_small.jpg"  alt="" data-src="assets/img/profiles/avatar_small.jpg" data-src-retina="assets/img/profiles/avatar_small2x.jpg" width="35" height="35" />
+                    <img src="{{url('assets/img/profiles/avatar_small.jpg')}}"  alt="" data-src="{{url('assets/img/profiles/avatar_small.jpg')}}" data-src-retina="{{url('assets/img/profiles/avatar_small2x.jpg')}}" width="35" height="35" />
                 </div>
             </div>
          <ul class="nav quick-section ">

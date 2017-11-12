@@ -175,7 +175,7 @@
                                             <div class="col-md-8 col-sm-8 col-xs-8">
                                                 <div id="module_container">
                                                     <?php
-                                                    if (!isset($data['course_details']))
+                                                    if (!isset($data['course_details']) || sizeof($data['course_modules']) < 1)
                                                     {
                                                         // NEW
                                                     ?>

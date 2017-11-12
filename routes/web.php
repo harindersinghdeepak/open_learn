@@ -12,7 +12,8 @@
 */
 
 // INDEX CONTROLLER
-Route::get('/', 'IndexController@index');
+// Route::get('/', 'IndexController@index');
+Route::get('/', 'Admin\CoursesController@index')->name('list_course');
 Route::get('error', 'IndexController@handle_err')->name('error');
 
 /*
