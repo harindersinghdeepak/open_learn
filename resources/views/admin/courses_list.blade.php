@@ -62,7 +62,7 @@
                                         <td><?= $value['status'] == 1 ? 'Active' : 'Inactive' ?></td>
                                         <td>
                                             <a href="{{url('admin/course/edit')}}/<?= $value['id'] ?>" class="btn btn-small btn-primary"><i class="fa fa-edit"></i></a>
-                                            <a href="javascript:void(0)" onclick="deleteRecord(this)" rel="<?= $value['id'] ?>" class="btn btn-small btn-danger"><i class="fa fa-trash"></i></a>
+                                            <a href="javascript:void(0)" onclick="confirm_delete(this)" rel="{{url('admin/course/delete')}}/<?= $value['id'] ?>" class="btn btn-small btn-danger"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     <?php
@@ -70,16 +70,14 @@
                             }
                             ?>
                             </tbody>
-
                         </table>
-
                     </div>
                 </div>
             </div>
         </div>
-        <!-- END PAGE -->
     </div>
 </div>
+
 <script src="{{url('/assets/plugins/data-tables/jquery.dataTables.min.js')}}" type="text/javascript"></script>
 <script src="{{url('/assets/js/backend/courses.js')}}" type="text/javascript"></script>
 

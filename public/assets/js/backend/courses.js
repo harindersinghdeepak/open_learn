@@ -1,13 +1,11 @@
-jQuery(document).ready(function(){
-
+jQuery(document).ready(function()
+{
 	if(typeof CKEDITOR !== 'undefined')
 	{
 	    CKEDITOR.replace('course_short_description');
 	    CKEDITOR.replace('course_description');
 	    CKEDITOR.replace('course_requirements');
 	    CKEDITOR.replace('what_will_learn');
-
-	    CKEDITOR.replace('module[0][module_description]');
 	}
 
 	if($('table').length)
@@ -48,12 +46,32 @@ jQuery(document).ready(function(){
 	});
 });
 
-function deleteRecord(e)
+// function deleteRecord(e)
+// {
+//     if(window.confirm('Do you want to delete?'))
+//     {
+//         $(e).attr('href', '/admin/course/delete/'+$(e).attr('rel'));
+//         $(e).attr('onclick', '');
+//         $(e).click();
+//     }
+// }
+
+// function deleteCourseModule(e)
+// {
+//     if(window.confirm('Do you want to delete?'))
+//     {
+//         $(e).attr('href', '/admin/course_module/delete/'+$(e).attr('rel'));
+//         $(e).attr('onclick', '');
+//         $(e).click();
+//     }
+// }
+
+function confirm_delete(e)
 {
-    if(window.confirm('Do you want to delete?'))
-    {
-        $(e).attr('href', '/admin/course/delete/'+$(e).attr('rel'));
-        $(e).attr('onclick', '');
-        $(e).click();
-    }
+	if(window.confirm('Do you want to delete?'))
+	{
+		$(e).attr('href', $(e).attr('rel'));
+		$(e).attr('onclick', '');
+		$(e).click();
+	}
 }

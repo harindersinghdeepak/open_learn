@@ -55,7 +55,7 @@
                                         <td><?= $value['status'] == 1 ? 'Active' : 'Inactive' ?></td>
                                         <td>
                                             <a href="{{url('admin/course_module/edit')}}/<?= $data['course_details']['id'] . '/' . $value['id']; ?>" class="btn btn-small btn-primary"><i class="fa fa-edit"></i></a>
-                                            <a href="javascript:void(0)" onclick="deleteRecord(this)" rel="<?= $value['id'] ?>" class="btn btn-small btn-danger"><i class="fa fa-trash"></i></a>
+                                            <a href="javascript:void(0)" onclick="confirm_delete(this)" rel="{{url('admin/course_module/delete')}}/<?= $data['course_details']['id'] . '/' . $value['id']; ?>" class="btn btn-small btn-danger"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     <?php

@@ -61,6 +61,9 @@ class Course_Modules extends Model
 		// Module Attachment
 		if (!$insert_data['module_video']['error'])
 		{
+			// Delete existing course module attachment, if any
+			Module_Attachments::delete_module_attachment($course_module->id);
+
 			$upload_attachment = self::uploadFiles($insert_data['module_video'], Config::get('constants.uploadFilesFolder.module_videos'));
 			if (sizeof($upload_attachment) > 0)
 			{
@@ -99,5 +102,10 @@ class Course_Modules extends Model
         }
 
         return array();
+	}
+
+	public static function delete_course_module($id)
+	{
+		return DB::table('course_modules')->where('id', $id)->update(array('is_deleted' => 1));
 	}
 }

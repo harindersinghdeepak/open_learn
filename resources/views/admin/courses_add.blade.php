@@ -13,9 +13,7 @@
         <div class="col-md-6">
             <div class="row">
                 <ul class="breadcrumb">
-                    <li>
-                        <p>Dashboard</p>
-                    </li>
+                    <li><p>Dashboard</p></li>
                     <li><a href="javascript:void(0);" class="active">Create A Course</a> </li>
                 </ul>
             </div>
@@ -29,7 +27,6 @@
                             <ul class="steps">
                                 <li data-step="1">Create A Course</li>
                                 <li data-step="2">Course Media</li>
-                                <li data-step="3">Create Course Modules</li>
                             </ul>
                             <div class="steps-content">
                                 <form action="{{url('admin/course/save')}}" method="POST" enctype="multipart/form-data">
@@ -136,17 +133,35 @@
 
                                     <div data-step="2">
                                         <div class="row">
-                                            <div class="col-md-8 col-sm-8 col-xs-8">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
                                                 <div class="form-group">
                                                     <div class="col-md-12">
                                                         <div class="row">
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-12">
                                                                 <label class="form-label">Upload Background Image</label>  
                                                                 <div class="form-group">
-                                                                    <div class="controls"> 
-                                                                        <input name="course_image" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" type="file">
-                                                                        <label for="file-1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Choose a file…</span></label>
+                                                                    <div class="controls col-lg-6"> 
+                                                                        <div class="row">
+                                                                            <input name="course_image" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" type="file">
+                                                                            <label for="file-1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Choose a file…</span></label>
+                                                                        </div>
                                                                     </div> 
+                                                                    <?php
+                                                                    if(sizeof(($data['course_details']['attachments'])) > 0)
+                                                                    {
+                                                                        foreach ($data['course_details']['attachments'] as $keyCA => $valueCA)
+                                                                        {
+                                                                            if ($valueCA['attachment_type'] == 1)
+                                                                            {
+                                                                    ?>
+                                                                                <div class="col-lg-6">
+                                                                                    <img src="{{url('/')}}<?php echo $valueCA['attachment_path']?>">
+                                                                                </div>
+                                                                    <?php
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -154,13 +169,34 @@
 
                                                     <div class="col-md-12">
                                                         <div class="row">
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-12">
                                                                 <label class="form-label">Upload Video</label>  
                                                                 <div class="form-group">
-                                                                    <div class="controls"> 
-                                                                        <input name="course_video" id="file-2" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" type="file">
-                                                                        <label for="file-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Choose a file…</span></label>
-                                                                    </div> 
+                                                                    <div class="controls col-lg-6"> 
+                                                                        <div class="row">
+                                                                            <input name="course_video" id="file-2" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" type="file">
+                                                                            <label for="file-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Choose a file…</span></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                    if(sizeof(($data['course_details']['attachments'])) > 0)
+                                                                    {
+                                                                        foreach ($data['course_details']['attachments'] as $keyCA => $valueCA)
+                                                                        {
+                                                                            if ($valueCA['attachment_type'] == 2)
+                                                                            {
+                                                                    ?>
+                                                                                <div class="col-lg-6">
+                                                                                    <video width="100%" controls>
+                                                                                        <source src="{{url('/')}}<?php echo $valueCA['attachment_path']; ?>" type="video/mp4">
+                                                                                        Your browser does not support the video tag.
+                                                                                    </video>
+                                                                                </div>
+                                                                    <?php
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -168,91 +204,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div data-step="3">
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-8 col-xs-8">
-                                                <div id="module_container">
-                                                    <?php
-                                                    if (!isset($data['course_details']) || sizeof($data['course_modules']) < 1)
-                                                    {
-                                                        // NEW
-                                                    ?>
-                                                        <div id="module-0" class="courses_module">
-                                                            <div class="form-group">
-                                                                <label class="form-label">Module Name</label>
-                                                                <div class="controls">
-                                                                    <input type="text" class="form-control" name="module[0][module_name]">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="form-label">Module Description</label>
-                                                                <div class="controls">
-                                                                    <textarea id="" placeholder="Enter Description" name="module[0][module_description]" class="form-control" rows="10"></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="form-label">Upload Video</label>  
-                                                                <div class="controls">
-                                                                    <input name="module_video_0" id="module_file_0" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" type="file">
-                                                                    <label for="module_file_0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Choose a file…</span></label>
-                                                                </div> 
-                                                            </div>
-                                                        </div>
-                                                    <?php
-                                                    }
-                                                    else
-                                                    {
-                                                        foreach ($data['course_modules'] as $keyCM => $valueCM)
-                                                        {
-                                                    ?>
-                                                            <div id="module-<?php echo $keyCM; ?>" class="courses_module">
-                                                                <input type="hidden" name="module[<?php echo $keyCM; ?>][cm_id]" value="<?php echo base64_encode($valueCM['id']); ?>">
-                                                                <div class="form-group">
-                                                                    <label class="form-label">Module Name</label>
-                                                                    <div class="controls">
-                                                                        <input type="text" class="form-control" name="module[<?php echo $keyCM; ?>][module_name]" value="<?php echo $valueCM['module_name']; ?>">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label class="form-label">Module Description</label>
-                                                                    <div class="controls">
-                                                                        <textarea id="" placeholder="Enter Description" name="module[<?php echo $keyCM; ?>][module_description]" class="form-control" rows="10"><?php echo $valueCM['module_description']; ?></textarea>
-                                                                    </div>
-                                                                </div>
-                                                                <?php
-                                                                foreach ($valueCM['module_attachments'] as $keyCMA => $valueCMA)
-                                                                {
-                                                                ?>
-                                                                    <div class="form-group">
-                                                                        <label class="form-label">Module Video</label>
-                                                                        <div class="controls">
-                                                                            <img src="{{url(<?php echo $valueCMA['attachment_path']; ?>)}}">
-                                                                        </div>
-                                                                    </div>
-                                                                <?php
-                                                                }
-                                                                ?>
-                                                                <div class="form-group">
-                                                                    <label class="form-label">Upload Video</label>  
-                                                                    <div class="controls"> 
-                                                                        <input name="module_video_<?php echo $keyCM; ?>" id="module_file_<?php echo $keyCM; ?>" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" type="file">
-                                                                        <label for="module_file_<?php echo $keyCM; ?>"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Choose a file…</span></label>
-                                                                    </div> 
-                                                                </div>
-                                                            </div>
-                                                    <?php
-                                                        }
-                                                    }
-                                                    ?>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-4">
-                                                <button type="button" id="addNewModule" class="btn btn-success pull-right">Add New</button>
-                                            </div>    
-                                        </div>
-                                        <button class="btn btn-next final-step btn-success" name="submit">Complete</button>
+                                        <button class="btn btn-next final-step btn-success pull-right" name="submit">Complete</button>
                                     </div>
                                 </form>
                             </div>

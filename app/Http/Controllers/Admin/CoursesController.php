@@ -16,38 +16,23 @@ class CoursesController extends Controller
 		return view('admin/courses_list')->with('data', $data);
 	}
 
-	public function course_modules_list()
-	{
-		$params = Route::current()->parameters();
-		$data['course_details'] = \App\Courses::get_course_details($params['cid']);
-		$data['all_course_modules'] = \App\Course_Modules::get_course_modules($params['cid']);
-		
-		if (sizeof($data['course_details']) < 1)
-		{
-			return view('admin/errors/404');
-		}
-
-		return view('admin/course_modules_list')->with('data', $data);
-	}
-
     public function course_add()
     {
     	$params = Route::current()->parameters();
+    	$data['all_course_categories'] = \App\Course_Categories::get_all_course_categories();
     	if (array_key_exists('id', $params))
     	{
-    		// EDIT
+    		// EDIT COURSE
     		$data['course_details'] = \App\Courses::get_course_details($params['id']);
-    		if (empty($data['course_details']))
-    		{
-    			return view('admin/errors/404');
-    		}
+			if (empty($data['course_details']))
+			{
+				return view('admin/errors/404');
+			}
     		
-    		$data['course_modules'] = \App\Course_Modules::get_course_modules($params['id']);
-    		$data['all_course_categories'] = \App\Course_Categories::get_all_course_categories();
+    		$data['course_details']['attachments'] = \App\Course_Attachments::get_course_attachments($params['id']);
     		return view('admin/courses_add')->with('data', $data);
     	}
 
-    	$data['all_course_categories'] = \App\Course_Categories::get_all_course_categories();
     	return view('admin/courses_add')->with('data', $data);
     }
 
@@ -86,20 +71,30 @@ class CoursesController extends Controller
 		$insert_data['course']['course_video'] = $_FILES['course_video'];
 
 		// Course Modules
-		$post_data['module'] = array_values($post_data['module']);
-		foreach ($post_data['module'] as $keyM => $valueM)
-		{
-			$insert_data['modules'][$keyM]['module_name'] = $valueM['module_name'];
-			$insert_data['modules'][$keyM]['module_description'] = $valueM['module_description'];
-			$insert_data['modules'][$keyM]['module_video'] = null;
-			if (isset($_FILES['module_video_' . $keyM]))
-			{
-				$insert_data['modules'][$keyM]['module_video'] = $_FILES['module_video_' . $keyM];
-			}
-		}
+		// $post_data['module'] = array_values($post_data['module']);
+		// foreach ($post_data['module'] as $keyM => $valueM)
+		// {
+		// 	$insert_data['modules'][$keyM]['module_name'] = $valueM['module_name'];
+		// 	$insert_data['modules'][$keyM]['module_description'] = $valueM['module_description'];
+		// 	$insert_data['modules'][$keyM]['module_video'] = null;
+		// 	if (isset($_FILES['module_video_' . $keyM]))
+		// 	{
+		// 		$insert_data['modules'][$keyM]['module_video'] = $_FILES['module_video_' . $keyM];
+		// 	}
+		// }
 
-    	$insert_id = \App\Courses::save_course($insert_data);
-    	return redirect()->route('edit_course', array('id' => $insert_id));
+		try
+		{
+			$insert_id = \App\Courses::save_course($insert_data);
+
+			Session::flash('success', 'Course saved successfully.');
+	   		return redirect()->route('edit_course', array('id' => $insert_id));
+		}
+		catch (Exception $e)
+		{
+			Session::flash('error', 'Error while saving course.');
+			return redirect()->back();
+		}
 	}
 
 	function course_delete()
@@ -110,15 +105,29 @@ class CoursesController extends Controller
     		try
     		{
 	    		\App\Courses::delete_course($params['id']);
-	    		Session::flash('success', 'Course deleted successful!');
+	    		Session::flash('success', 'Course deleted successfully.');
     		}
     		catch (Exception $e)
     		{
-	    		Session::flash('error', 'Error while deleting Course!');
+	    		Session::flash('error', 'Error while deleting Course.');
     		}
 
 	    	return redirect()->back();
     	}
+	}
+
+	public function course_modules_list()
+	{
+		$params = Route::current()->parameters();
+		$data['course_details'] = \App\Courses::get_course_details($params['cid']);
+		$data['all_course_modules'] = \App\Course_Modules::get_course_modules($params['cid']);
+		
+		if (sizeof($data['course_details']) < 1)
+		{
+			return view('admin/errors/404');
+		}
+
+		return view('admin/course_modules_list')->with('data', $data);
 	}
 
 	public function course_module_add()
@@ -175,5 +184,24 @@ class CoursesController extends Controller
 		}
 		
     	return redirect()->route('add_course_module', array("id" => $cid));
+	}
+
+	public function course_module_delete()
+	{
+		$params = Route::current()->parameters();
+    	if (array_key_exists('id', $params))
+    	{
+    		try
+    		{
+	    		\App\Course_Modules::delete_course_module($params['id']);
+	    		Session::flash('success', 'Module deleted successfully.');
+    		}
+    		catch (Exception $e)
+    		{
+	    		Session::flash('error', 'Error while deleting Module.');
+    		}
+
+	    	return redirect()->back();
+    	}
 	}
 }

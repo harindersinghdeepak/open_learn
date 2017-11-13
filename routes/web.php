@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('course/{id}', 'IndexController@index')->name('list_course');
 
 // INDEX CONTROLLER
 // Route::get('/', 'IndexController@index');
