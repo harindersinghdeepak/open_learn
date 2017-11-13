@@ -15,9 +15,9 @@ class Course_Modules extends Model
 
 		foreach ($course_modules as $keyCM => $valueCM)
 		{
-			$course_modules[$keyCM]['module_attachments'] = \App\Module_Attachments::where(array('module_id' => $course_id, 'is_deleted' => 0))->get();
+			$course_modules[$keyCM]['module_attachments'] = \App\Module_Attachments::where(array('module_id' => $valueCM['id'], 'is_deleted' => 0))->get();
 		}
-
+		
 		return $course_modules;
     }
 

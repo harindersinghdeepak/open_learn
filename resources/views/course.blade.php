@@ -953,6 +953,7 @@
 								<?php
 								foreach ($data['course_details']['modules'] as $keyCM => $valueCM)
 								{
+									// print_r($data['course_details']['modules']);die;
 								?>
 									<div class="wpb_text_column wpb_content_element ">
 										<div class="wpb_wrapper">
@@ -981,7 +982,6 @@
 											<div class="popup">
 												<a class="close" href="#">×</a>
 												<div class="content">
-													<!-- <iframe id="video" src="https://player.vimeo.com/video/240835522" allowfullscreen="allowfullscreen" frameborder="0"></iframe> -->
 													<video width="100%" controls>
 									                    <source src="{{url('/')}}<?php echo $valueCM['module_attachments'][0]['attachment_path']; ?>" type="video/mp4">
 									                    Your browser does not support the video tag.

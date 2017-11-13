@@ -33,7 +33,7 @@ class IndexController extends Controller
 		}
 
     	$data['course_details']['modules'] = \App\Course_Modules::get_course_modules($params['id']);
-
+    	
     	return view('course')->with('data', $data);
     }
 
