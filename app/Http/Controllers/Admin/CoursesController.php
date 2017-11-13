@@ -10,11 +10,25 @@ use Config;
 
 class CoursesController extends Controller
 {
-    public function index()
-    {
-    	$data['all_courses'] = \App\Courses::get_all_courses();
-    	return view('admin/courses_list')->with('data', $data);
-    }
+	public function index()
+	{
+		$data['all_courses'] = \App\Courses::get_all_courses();
+		return view('admin/courses_list')->with('data', $data);
+	}
+
+	public function course_modules_list()
+	{
+		$params = Route::current()->parameters();
+		$data['course_details'] = \App\Courses::get_course_details($params['cid']);
+		$data['all_course_modules'] = \App\Course_Modules::get_course_modules($params['cid']);
+		
+		if (sizeof($data['course_details']) < 1)
+		{
+			return view('admin/errors/404');
+		}
+
+		return view('admin/course_modules_list')->with('data', $data);
+	}
 
     public function course_add()
     {
@@ -105,5 +119,61 @@ class CoursesController extends Controller
 
 	    	return redirect()->back();
     	}
+	}
+
+	public function course_module_add()
+    {
+    	$params = Route::current()->parameters();
+		$data['mid'] = '';
+    	$data['cid'] = $params['cid'];
+
+    	if (array_key_exists('id', $params))
+    	{
+    		// EDIT
+			$data['mid'] = $params['id'];
+
+    		$data['course_module_details'] = \App\Course_Modules::get_course_module_details($params['id']);
+			if (sizeof($data['course_module_details']) < 1)
+			{
+				return view('admin/errors/404');
+			}
+    	}
+
+    	return view('admin/course_module_add')->with('data', $data);
+    }
+
+    public function course_module_save(Request $request)
+	{
+		$post_data = $request->all();
+
+		$cid = base64_decode($post_data['cid']);
+		if ($post_data['module_name'] != '' && $post_data['module_description'] != '')
+		{
+			if (trim($post_data['mid']) != '')
+			{
+				// Edit Module
+				$insert_data['id'] = base64_decode($post_data['mid']);
+			}
+			
+			$insert_data['course_id'] = $cid;
+			$insert_data['module_name'] = $post_data['module_name'];
+			$insert_data['module_description'] = $post_data['module_description'];
+			$insert_data['module_video'] = $_FILES['module_video'];
+			try
+			{
+				$insert_id = \App\Course_Modules::save_course_module($insert_data);
+				Session::flash('success', 'Module saved successfully.');
+			}
+			catch (Exception $e)
+			{
+				Session::flash('error', 'Error while saving Module.');
+			}
+		}
+		else
+		{
+			Session::flash('error', 'Please fill required fields.');
+		}
+		
+    	return redirect()->route('add_course_module', array("id" => $cid));
 	}
 }
